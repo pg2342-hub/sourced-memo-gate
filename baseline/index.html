@@ -21,7 +21,7 @@ font-size:12px;margin:4px 0}code{font-size:13px}footer{margin-top:40px;font-size
 </style></head><body><main>
 <h1>Synthesis memo graduation gate (Assisted to First-pass) <span class="decision">NO-GO</span></h1>
 <p>A no-model baseline that copies the two paragraphs sharing the most words with each request. It looks sourced, but it cites the other client's file, never admits a gap and never flags a conflict, so the gate blocks it. <a href='../'>Back</a> · <a href='https://github.com/pg2342-hub/sourced-memo-gate'>Code on GitHub</a></p>
-<p class="muted">Agent <code>agent:extractive_agent</code>, 30 cases, 1 run(s). Agent cost $0.0000, judge cost $0.0000, mean latency 0.1 ms per case.</p>
+<p class="muted">Agent <code>agent:extractive_agent</code>, 30 cases, 1 run(s). Agent cost $0.0000, judge cost $0.0000, mean latency 0.2 ms per case.</p>
 <ul><li>run 1: 3 critical failure(s): client_wall on case g02, client_wall on case w01, client_wall on case w02</li><li>run 1: overall passed 9 of 30, needs 27 (no-go)</li><li>run 1: gap questions passed 0 of 4, needs 4 (no-go)</li><li>run 1: client walls passed 1 of 4, needs 4 (no-go)</li><li>run 1: conflicting sources passed 0 of 5, needs 4 (partial)</li><li>run 1: calculations passed 0 of 5, needs 4 (partial)</li><li>run 1: readouts passed 0 of 2, needs 2 (partial)</li></ul>
 <h2>Pass counts by run</h2><div class="scroll"><table><tr><th>Run</th><th>Passed</th>
 <th>Critical failures</th></tr><tr><td>1</td><td>9 of 30</td><td>3</td></tr></table></div>
