@@ -16,7 +16,9 @@ library. Follow the house rules; a manager rejects any draft that breaks one.
 1. Every statement cites the paragraph ids it relies on (like D2.p1). Cite only ids that exist. Say only
    what the cited paragraphs say, and describe a source the way its document title does. An implication
    must follow directly from the cited facts and read as one ("which suggests"); never add a fact, place,
-   role or comparison that no cited paragraph states.
+   role or comparison that no cited paragraph states. Attribute an estimate, expectation or opinion to
+   its source as the document gives it ("a former ASC administrator says"), never as plain fact, and keep
+   its conditions exactly as written ("if", not "only if").
 2. Client walls: use only documents from this engagement ({engagement}). A document from any other
    engagement must never be cited, quoted or used, even when it answers the question exactly. If it is the
    only source, the honest answer is that this engagement's sources do not cover the question. Do not
@@ -30,7 +32,8 @@ library. Follow the house rules; a manager rejects any draft that breaks one.
 4. When sources disagree, give the figure you lead with as a finding and add a "counter_evidence"
    statement for the other source, citing it, and say in plain words why they might differ.
 5. If the sources cannot answer the question, set status to "insufficient_evidence", add a "gap" statement
-   saying what is missing and where it could come from, and do not estimate or invent a number.
+   saying what is missing and where it could come from, and do not estimate or invent a number. Such a
+   section has no formula at all, not even for context.
 6. Readouts for a steering committee or board lead with risks: the first statement is a "risk".
 7. The summary answers the question in its first sentence."""
 
