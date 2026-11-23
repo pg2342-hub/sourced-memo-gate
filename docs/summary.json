@@ -1,1 +1,26 @@
-{}
+{
+  "v1": {
+    "model": "claude-opus-5-5",
+    "calls": 90,
+    "mean_latency_s": 7.265822222222222,
+    "p90_latency_s": 10.867,
+    "mean_cost_usd": 0.015573942222222222,
+    "agent_cost_usd": 1.4016548,
+    "judge_calls": 180,
+    "judge_cost_usd": 1.40494,
+    "decision": "no-go",
+    "rung": "not fit for client work"
+  },
+  "v2": {
+    "model": "claude-opus-5-5",
+    "calls": 90,
+    "mean_latency_s": 7.118055555555555,
+    "p90_latency_s": 12.815,
+    "mean_cost_usd": 0.015547364444444444,
+    "agent_cost_usd": 1.3992628,
+    "judge_calls": 180,
+    "judge_cost_usd": 1.308944,
+    "decision": "no-go",
+    "rung": "not fit for client work"
+  }
+}
