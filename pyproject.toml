@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Go-live gate for an AI research-synthesis agent on a consulting engagement"
 requires-python = ">=3.10"
 dependencies = [
-  "golive-gate[claude] @ git+https://github.com/pg2342-hub/golive-gate@37a39197b29a38b099c6f74d3eb8e4ea1137129b",
+  "golive-gate[claude] @ git+https://github.com/pg2342-hub/golive-gate@5ed50a1d8880c26624d477f53bfb77f03524bb58",
   "pyyaml>=6",
 ]
 
