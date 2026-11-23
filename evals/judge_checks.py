@@ -18,7 +18,10 @@ from checks import PARAS
 from checks import checks as rule_checks
 from golive_gate import NA, CheckSet, judge_check
 
+from memo.corpus import load
 from memo.recorded import ROOT, Tape, recording_judge, replay_judge
+
+TITLES = {d["id"]: d["title"] for d in load().documents}
 
 TAPES = {"v1": Tape(ROOT / "judge_v1.jsonl"), "v2": Tape(ROOT / "judge_v2.jsonl")}
 _judges = {}
@@ -51,7 +54,8 @@ def _with_sources(out):
     for i, s in enumerate(out["statements"], 1):
         lines.append(f"Statement {i} ({s['type']}): {s['text']}")
         for pid in s["sources"]:
-            lines.append(f"  cited {pid}: {PARAS.get(pid, '(no such paragraph)')}")
+            doc = TITLES.get(pid.split(".")[0], "")
+            lines.append(f"  cited {pid} (from: {doc}): {PARAS.get(pid, '(no such paragraph)')}")
     return "\n".join(lines) or "(no statements)"
 
 
@@ -60,9 +64,11 @@ def _summary(out):
 
 
 SUPPORTED = (
-    "Each statement says only what its cited paragraphs support: no claim, figure or attribution goes "
-    "beyond them, and nothing is stated as fact that a source gives only as an estimate or an opinion. "
-    "Gap statements, which say what the sources do not cover, pass."
+    "Each statement says only what its cited paragraphs, read with the titles of the documents they come "
+    "from, support: no figure, fact, place, role or attribution goes beyond them, and nothing is stated as "
+    "fact that a source gives only as an estimate or an opinion. A short implication passes when it follows "
+    "directly from the cited facts and is worded as an inference (for example 'which suggests'), not as a "
+    "new fact. Gap statements, which say what the sources do not cover, pass."
 )
 ANSWERS = (
     "The summary's first sentence answers the request directly, or says plainly that the engagement's "

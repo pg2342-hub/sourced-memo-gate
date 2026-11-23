@@ -41,7 +41,7 @@ One document is a benchmark file from **a different client's engagement**. It si
 | `every_claim_sourced` | Every finding, risk and counter-evidence statement cites a paragraph |
 | `numbers_tie_out` | Every figure in a statement or the summary appears in a cited paragraph or is the result of a formula, and every formula input appears in a cited paragraph (34% may be written 0.34, a 4.5% growth rate 1.045) |
 | `says_when_it_cannot_answer` | When the sources cannot answer, the section says so and computes no estimate. When they can, it answers |
-| `counter_evidence_noted` | When sources disagree, a counter-evidence statement cites the other source |
+| `counter_evidence_noted` | When sources disagree, the section cites both and a counter-evidence or risk statement cites the other source |
 | `key_sources_cited` | The section cites the paragraphs a correct answer depends on |
 | `calculation_right` | A computed answer's formula is within 1% of the right value |
 | `risks_first` | A steering-committee or board readout leads with a risk |

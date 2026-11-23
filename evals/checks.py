@@ -118,17 +118,25 @@ def every_claim_sourced(case, out):
 def _results(statement):
     """The statement's formula result, as the sentence may state it (scaled, or as a percentage)."""
     try:
-        return N.scaled_results(N.evaluate(statement["formula"])) if statement.get("formula") else []
+        if not statement.get("formula"):
+            return []
+        steps = N.evaluate_all(statement["formula"]) + N.intermediates(statement["formula"])
+        return [r for x in steps for r in N.scaled_results(x)]
     except (ValueError, SyntaxError, ZeroDivisionError):
         return []
 
 
-def _untied(text, cited, results, computed):
-    """Figures in text that neither a cited paragraph, a formula result nor a stated difference supports."""
-    candidates = N.values(cited) + N.derived(cited) + results
+def _untied(text, cited, results, computed, fallback=()):
+    """Figures in text that neither a cited paragraph, a formula result nor a stated difference supports.
+
+    Small whole numbers (1 to 12) are counts and spans an analyst restates in words ("3 to 4 years"), so
+    they are left to the judge. fallback holds figures the statement repeats from elsewhere in the section."""
+    candidates = N.values(cited) + N.derived(cited) + list(results) + list(fallback)
     points = {float(x) for x in _POINTS.findall(text)}
     missing = []
     for value, decimals in N.numbers(text, rounded_ok=computed):
+        if decimals == 0 and value in FORMULA_CONSTANTS:
+            continue
         pool = candidates + N.differences(cited) if value in points else candidates
         if not N.matches(value, decimals, pool):
             missing.append(value)
@@ -144,11 +152,14 @@ def _untied(text, cited, results, computed):
 )
 def numbers_tie_out(case, out):
     problems = []
+    # a statement may repeat a figure another statement of the same section has already sourced or computed
+    section_cited = " ".join(PARAS.get(p, "") for p in sorted(_cited(out)))
+    section = N.values(section_cited) + N.derived(section_cited) + [r for s in out["statements"] for r in _results(s)]
     for i, s in enumerate(_statements(out, ("finding", "risk", "counter_evidence"))):
         cited = " ".join(PARAS.get(p, "") for p in s["sources"])
         if s.get("formula"):
             try:
-                N.evaluate(s["formula"])
+                N.evaluate_all(s["formula"])
             except (ValueError, SyntaxError, ZeroDivisionError) as exc:
                 problems.append(f"statement {i + 1}: formula does not evaluate ({exc})")
                 continue
@@ -156,7 +167,7 @@ def numbers_tie_out(case, out):
             for x in N.formula_inputs(s["formula"]):
                 if x not in FORMULA_CONSTANTS and not any(N.matches(f, 9, face) for f in N.input_forms(x)):
                     problems.append(f"statement {i + 1}: formula input {x:g} is not in its cited paragraphs")
-        for value in _untied(s["text"], cited, _results(s), bool(s.get("formula"))):
+        for value in _untied(s["text"], cited, _results(s), bool(s.get("formula")), section):
             problems.append(
                 f"statement {i + 1}: {value:g} does not tie out to {', '.join(s['sources']) or 'any source'}"
             )
@@ -191,14 +202,17 @@ def says_when_it_cannot_answer(case, out):
 
 @checks.check(
     "counter_evidence_noted",
-    text="When sources disagree, a counter-evidence statement cites the other source.",
+    text="When sources disagree, the section cites both sides and states the disagreement in a counter-evidence "
+    "or risk statement that cites the other source (an answer may lead with either side).",
 )
 def counter_evidence_noted(case, out):
-    want = set((case.expected or {}).get("conflict", []))
+    exp = case.expected or {}
+    want = set(exp.get("conflict", []))
     if not want:
         return NA
-    for s in _statements(out, ("counter_evidence",)):
-        if want & set(s["sources"]):
+    both_sides = not set(exp.get("must_cite", [])) - _cited(out)
+    for s in _statements(out, ("counter_evidence", "risk")):
+        if want & set(s["sources"]) and both_sides:
             return ok()
     cited_both = want & _cited(out)
     detail = f" (cites {', '.join(sorted(cited_both))} but not as counter-evidence)" if cited_both else ""
@@ -223,7 +237,7 @@ def calculation_right(case, out):
     for s in out["statements"]:
         if s.get("formula"):
             try:
-                results.append(N.evaluate(s["formula"]))
+                results.extend(N.evaluate_all(s["formula"]))
             except (ValueError, SyntaxError, ZeroDivisionError):
                 continue
     if any(abs(r - target) <= 0.01 * abs(target) for r in results):

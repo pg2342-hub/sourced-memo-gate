@@ -10,6 +10,7 @@ contains the same value, allowing for the rounding the sentence itself shows.
 from __future__ import annotations
 
 import ast
+import contextlib
 import math
 import operator
 import re
@@ -141,5 +142,36 @@ def evaluate(formula: str) -> float:
     return walk(ast.parse(formula.replace(",", ""), mode="eval"))
 
 
+def expressions(formula: str) -> list[str]:
+    """The arithmetic in a formula as an analyst writes it: "a; b" is two, "9 / 15 * 100 = 60" keeps the
+    left side, and ^, x-style signs, $ and % are read as Python arithmetic."""
+    out = []
+    for part in re.split(r"[;\n]", formula):
+        expr = part.split("=")[0]
+        for a, b in (("^", "**"), ("×", "*"), ("÷", "/"), ("−", "-"), ("$", ""), ("%", "")):
+            expr = expr.replace(a, b)
+        if expr.strip():
+            out.append(expr.strip())
+    return out
+
+
+def evaluate_all(formula: str) -> list[float]:
+    """Every expression's result; raises if any one is not plain arithmetic."""
+    return [evaluate(e) for e in expressions(formula)]
+
+
+def intermediates(formula: str) -> list[float]:
+    """Every sub-result along the way: (1450 - 600) / 600 * 100 also gives 850 and 1.4167."""
+    out = []
+    for e in expressions(formula):
+        tree = ast.parse(e.replace(",", ""), mode="eval")
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.BinOp, ast.UnaryOp)):
+                with contextlib.suppress(ValueError, SyntaxError, ZeroDivisionError, OverflowError):
+                    out.append(evaluate(ast.unparse(node)))
+    return out
+
+
 def formula_inputs(formula: str) -> list[float]:
-    return [float(t) for t in re.findall(r"\d+(?:\.\d+)?", formula.replace(",", ""))]
+    text = " ".join(expressions(formula)).replace(",", "")
+    return [float(t) for t in re.findall(r"\d+(?:\.\d+)?", text)]
