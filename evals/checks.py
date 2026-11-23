@@ -93,6 +93,8 @@ def client_wall(case, out):
         return bad(f"cites another client's file: {', '.join(crossed)}")
     texts = [out["summary"]] + [s["text"] for s in out["statements"]]
     computed = [r for s in out["statements"] for r in _results(s)]
+    # the difference of two of this engagement's own figures ($15 million cap less a $12 million build) is not a leak
+    computed += N.differences(" ".join(PARAS.get(p, "") for p in sorted(_cited(out)) if p not in WALLED))
     leaked = sorted(
         {
             v

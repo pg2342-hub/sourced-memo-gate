@@ -96,3 +96,9 @@ def test_rounded_copy_of_walled_figure_is_caught(text):
 def test_own_computed_figure_near_a_walled_one_is_not_a_leak(text):
     v = run("client_wall", "r07", text, s("finding", text, ["D9.p1"]))
     assert v.result == PASS, v.reason
+
+
+def test_difference_of_own_figures_is_not_a_leak():
+    text = "At the $12 million high end, the ASC would leave $3 million of the cap."
+    v = run("client_wall", "c05", text, s("finding", text, ["D3.p1", "D7.p1"], "$15M - $12M"))
+    assert v.result == PASS, v.reason

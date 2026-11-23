@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/pg2342-hub/sourced-memo-gate/actions/workflows/ci.yml/badge.svg)](https://github.com/pg2342-hub/sourced-memo-gate/actions/workflows/ci.yml)
 
-Demo page: https://pg2342-hub.github.io/sourced-memo-gate/ (every memo section, check and verdict, no install needed; it shows the baseline until the first live Claude run is recorded)
+Demo page: https://pranavgudise.dev/sourced-memo-gate/ (every memo section, check and judge verdict from the recorded live runs; no install needed)
 
 An AI analyst drafts sections of a consulting team's synthesis memo from the engagement's source library. Before it drafts every section on its own, someone has to decide it is ready. This repo writes that decision down: 30 memo requests, the engagement manager's standard as yes/no checks, and a gate that says whether the workflow **graduates from Assisted to First-pass**.
 
@@ -48,6 +48,20 @@ One document is a benchmark file from **a different client's engagement**. It si
 | `shape` | The section is well formed |
 
 `tests/test_checks.py` plants 25 defects in hand-written correct sections, such as a wrong figure, a citation to the other client's file, a missing counter-source or an estimate where the honest answer is a gap. It checks that each defect is caught by the check meant to catch it. `tests/test_tie_out.py` checks the other direction: correct answers written the way an analyst writes them ("1.5 to 2 years" for 18 to 24 months, `61000 * 1.045 ** 5`, "2 of the 3") are not failed.
+
+## Result of the recorded live run
+
+| Prompt | Sections passed, runs 1 / 2 / 3 | Critical failures | Decision |
+|---|---|---|---|
+| v1, day-one ("be accurate, cite your sources") | 2 / 1 / 3 of 30 | 0 | no-go |
+| v2, the engagement manager's house rules | 15 / 24 / 18 of 30 | 0 | no-go |
+| Extractive baseline (no model) | 9 of 30 | 3 (client wall) | no-go |
+
+With the house rules, Claude admitted every gap and declined every request only the other client's file could answer, and its figures tie out to the sources. It does not graduate. The judge still finds claims stated more firmly than their sources: an expert's "in my experience" written as fact, or "if at least 8 surgeons commit" turned into "only if". So the workflow stays where an analyst writes and the agent helps.
+
+The agent costs about 1.6 cents a section (Claude Opus 5.5, low effort, cached library), and the judge about the same again.
+
+Honest caveat: v2's house rules were tightened twice after reading earlier live runs on these same 30 requests, and the grader was fixed where it failed correct answers (formula notation such as `1.045^5`, and showing the judge each paragraph's document title). The next step is a held-out set of requests the rules were never tuned on.
 
 ## The baseline
 

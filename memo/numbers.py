@@ -148,6 +148,8 @@ def expressions(formula: str) -> list[str]:
     out = []
     for part in re.split(r"[;\n]", formula):
         expr = part.split("=")[0]
+        # "$15M" or "15 million" in a formula is 15, the way the source prints it
+        expr = re.sub(r"(\d)\s*(?:million|billion|thousand|[MmBbKk])\b", r"\1", expr)
         for a, b in (("^", "**"), ("×", "*"), ("÷", "/"), ("−", "-"), ("$", ""), ("%", "")):
             expr = expr.replace(a, b)
         if expr.strip():
