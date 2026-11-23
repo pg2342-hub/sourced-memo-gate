@@ -95,6 +95,6 @@ The **Record a live run** workflow (Actions tab, needs the `ANTHROPIC_API_KEY` s
 
 ## CI
 
-Every push runs ruff, the tests, and the baseline, which must come out no-go. It also runs the recorded v2 run through the golive-gate GitHub Action. That step fails the build on no-go and writes the report to the job summary.
+Every push runs ruff, the tests, and the baseline, which must come out no-go. It also runs the recorded v2 run through the golive-gate GitHub Action. That step writes the report and decision to the job summary, and fails the build only if the gate cannot reach a decision (for example, a recording that no longer matches the prompt). A no-go is reported as the result, not as a broken build.
 
 Every document, company, person and figure in the library is constructed.

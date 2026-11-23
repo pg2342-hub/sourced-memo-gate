@@ -23,15 +23,20 @@ jobs:
           test $? -eq 1
 
   gate:
-    # Grades the last recorded live run of prompt v2 (agent and judge). Fails the build on no-go.
+    # Grades the last recorded live run of prompt v2 (agent and judge) and writes the report to the job
+    # summary. The recorded run's decision is a result, not a build failure: the job fails only if the gate
+    # could not reach a decision (a config error or a recording that no longer matches the prompt).
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - id: gate
         if: hashFiles('recordings/agent_v2.jsonl') != ''
+        continue-on-error: true
         uses: pg2342-hub/golive-gate@5ed50a1d8880c26624d477f53bfb77f03524bb58
         with:
           config: evals/golive.v2.yml
           extras: claude
       - if: hashFiles('recordings/agent_v2.jsonl') != ''
-        run: echo "Graduation decision on the recorded run was ${{ steps.gate.outputs.decision }}"
+        run: |
+          echo "Graduation decision on the recorded run was ${{ steps.gate.outputs.decision }}"
+          test -n "${{ steps.gate.outputs.decision }}"
