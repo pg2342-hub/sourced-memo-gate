@@ -14,7 +14,7 @@
     ],
     "total_cost_usd": 0.0,
     "total_judge_cost_usd": 0.0,
-    "mean_latency_s": 0.000195
+    "mean_latency_s": 0.000146
   },
   "gate_result": {
     "decision": "no-go",
@@ -133,7 +133,7 @@
     },
     {
       "id": "counter_evidence_noted",
-      "text": "When sources disagree, a counter-evidence statement cites the other source.",
+      "text": "When sources disagree, the section cites both sides and states the disagreement in a counter-evidence or risk statement that cites the other source (an answer may lead with either side).",
       "critical": false
     },
     {
@@ -163,7 +163,7 @@
           "passed": true,
           "failed_checks": [],
           "error": "",
-          "latency_s": 0.0003,
+          "latency_s": 0.0002,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -323,7 +323,7 @@
           "passed": true,
           "failed_checks": [],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -403,7 +403,7 @@
           "passed": true,
           "failed_checks": [],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -483,7 +483,7 @@
           "passed": true,
           "failed_checks": [],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -565,7 +565,7 @@
             "key_sources_cited"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -727,7 +727,7 @@
             "key_sources_cited"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -807,7 +807,7 @@
           "passed": true,
           "failed_checks": [],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -887,7 +887,7 @@
           "passed": true,
           "failed_checks": [],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -969,7 +969,7 @@
             "calculation_right"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1052,7 +1052,7 @@
             "calculation_right"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1134,7 +1134,7 @@
             "calculation_right"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1216,7 +1216,7 @@
             "calculation_right"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1298,7 +1298,7 @@
             "calculation_right"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1381,7 +1381,7 @@
             "key_sources_cited"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1463,7 +1463,7 @@
             "counter_evidence_noted"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1545,7 +1545,7 @@
             "counter_evidence_noted"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1628,7 +1628,7 @@
             "key_sources_cited"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1710,7 +1710,7 @@
             "counter_evidence_noted"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1792,7 +1792,7 @@
             "says_when_it_cannot_answer"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1875,7 +1875,7 @@
             "says_when_it_cannot_answer"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -1957,7 +1957,7 @@
             "says_when_it_cannot_answer"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -2039,7 +2039,7 @@
             "says_when_it_cannot_answer"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -2122,7 +2122,7 @@
             "says_when_it_cannot_answer"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -2205,7 +2205,7 @@
             "says_when_it_cannot_answer"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -2287,7 +2287,7 @@
             "says_when_it_cannot_answer"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -2367,7 +2367,7 @@
           "passed": true,
           "failed_checks": [],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -2449,7 +2449,7 @@
             "risks_first"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
@@ -2531,7 +2531,7 @@
             "risks_first"
           ],
           "error": "",
-          "latency_s": 0.0002,
+          "latency_s": 0.0001,
           "cost_usd": 0.0,
           "judge_cost_usd": 0.0,
           "verdicts": {
