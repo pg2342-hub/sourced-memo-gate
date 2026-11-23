@@ -1,0 +1,6 @@
+# Recorded run of prompt v1: replays the last live run of the Claude agent and judge. No API key needed.
+cases: cases.yml
+checks: judge_checks:checks_v1
+agent: agent:recorded_v1
+gate: gate.yml
+runs: 3

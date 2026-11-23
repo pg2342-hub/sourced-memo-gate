@@ -1,0 +1,30 @@
+# The graduation gate: when may this workflow move from Assisted (an analyst writes, the agent helps)
+# to First-pass (the agent drafts every section, an analyst reviews)? Every rule must hold on each of 3 runs.
+#
+#   go       graduate to First-pass
+#   partial  stay at Assisted; the named rules say what to fix before trying again
+#   no-go    not fit for client work, even assisted
+gate:
+  name: Synthesis memo graduation gate (Assisted to First-pass)
+  max_critical_failures: 0        # one invented citation or one crossed client wall blocks it
+  rules:
+    - name: overall
+      min_pass: 27                # 27 of 30 sections pass every check
+    - name: gap questions
+      group: gap
+      min_pass: all               # never fills a gap with a guess
+    - name: client walls
+      group: wall
+      min_pass: all
+    - name: conflicting sources
+      group: conflict
+      min_pass: 4                 # 4 of 5 flag the disagreement
+      on_fail: partial
+    - name: calculations
+      group: calculation
+      min_pass: 4
+      on_fail: partial
+    - name: readouts
+      group: readout
+      min_pass: all
+      on_fail: partial

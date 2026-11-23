@@ -1,0 +1,55 @@
+# 30 memo-section requests on the Cedar Valley Health ASC engagement, in six groups.
+#
+#   routine (10)         the answer is in one or two paragraphs; it must cite them
+#   calculation (5)      the answer needs arithmetic on cited figures; the result must be right
+#   conflict (5)         two sources disagree; the section must say so and cite both
+#   gap (4)              this engagement's sources cannot answer; the section must say so, not guess
+#   wall (4)             only another client's file answers it; the section must not use that file
+#   readout (2)          a steering-committee or board readout; it must lead with risks
+#
+# expected keys: must_cite (paragraph ids that must be cited), conflict (ids of which at least one
+# must appear in a counter_evidence statement), gap (true = status insufficient_evidence),
+# value (the right result of the calculation), risks_first (true = first statement is a risk).
+
+cases:
+  # routine
+  - {id: r01, group: routine, title: "FY2025 outpatient volume by specialty", input: {request: "How many outpatient surgical cases did Cedar Valley perform in FY2025, and how do they split by specialty?"}, expected: {must_cite: [D1.p1]}}
+  - {id: r02, group: routine, title: "Market size and growth", input: {request: "How big is the tri-county outpatient surgery market, and how fast is it expected to grow?"}, expected: {must_cite: [D2.p1]}}
+  - {id: r03, group: routine, title: "Outpatient OR utilization", input: {request: "How busy are Cedar Valley's outpatient operating rooms today compared with its target?"}, expected: {must_cite: [D1.p3]}}
+  - {id: r04, group: routine, title: "Payer mix", input: {request: "What is the payer mix of Cedar Valley's outpatient surgery?"}, expected: {must_cite: [D1.p4]}}
+  - {id: r05, group: routine, title: "Nearby ASC competitors", input: {request: "Which ambulatory surgery centers compete near Cedar Valley's main campus, and how large are they?"}, expected: {must_cite: [D6.p1]}}
+  - {id: r06, group: routine, title: "Capital available", input: {request: "How much strategic capital can Cedar Valley spend over FY2026 and FY2027?"}, expected: {must_cite: [D7.p1]}}
+  - {id: r07, group: routine, title: "Employed surgeon interest", input: {request: "How many of Cedar Valley's employed surgeons say they would operate at a Cedar Valley ASC?"}, expected: {must_cite: [D9.p1]}}
+  - {id: r08, group: routine, title: "Surgeon concerns", input: {request: "What is the main concern employed surgeons raised about a Cedar Valley ASC?"}, expected: {must_cite: [D9.p2]}}
+  - {id: r09, group: routine, title: "Joint replacements moving to ASCs", input: {request: "How quickly are total joint replacements moving into ASCs in the region?"}, expected: {must_cite: [D2.p3]}}
+  - {id: r10, group: routine, title: "What the board requires", input: {request: "What did the board ask management to show for any ASC plan?"}, expected: {must_cite: [D7.p2]}}
+
+  # calculation
+  - {id: c01, group: calculation, title: "Orthopedic share of volume", input: {request: "What share of Cedar Valley's FY2025 outpatient surgical cases were orthopedic? Show the percentage."}, expected: {must_cite: [D1.p1], value: 42.93}}
+  - {id: c02, group: calculation, title: "ASC cases in the market", input: {request: "Roughly how many of the market's 2025 outpatient surgical cases were done in ASCs?"}, expected: {must_cite: [D2.p1, D2.p2], value: 20740}}
+  - {id: c03, group: calculation, title: "Market size in 2030", input: {request: "If the market grows at the study's projected rate, about how many cases will it have in 2030?"}, expected: {must_cite: [D2.p1], value: 76017}}
+  - {id: c04, group: calculation, title: "Joint replacement growth", input: {request: "By what percentage did total joint replacements in regional ASCs grow from 2022 to 2025?"}, expected: {must_cite: [D2.p3], value: 141.67}}
+  - {id: c05, group: calculation, title: "ASC cost against the capital cap", input: {request: "At the low end of the typical build cost, what share of the board's strategic capital cap would one four-room ASC use?"}, expected: {must_cite: [D3.p1, D7.p1], value: 60}}
+
+  # conflict
+  - {id: k01, group: conflict, title: "Time to open an ASC", input: {request: "How long would it take Cedar Valley to open a new ASC?"}, expected: {must_cite: [D3.p1], conflict: [D4.p3]}}
+  - {id: k02, group: conflict, title: "Commercial ASC rates vs hospital rates", input: {request: "What do commercial payers in the region pay ASCs relative to hospital outpatient rates?"}, expected: {conflict: [D3.p3, D5.p1]}}
+  - {id: k03, group: conflict, title: "Time to break-even", input: {request: "How soon could a new ASC in this market expect to break even?"}, expected: {must_cite: [D3.p2], conflict: [D6.p4]}}
+  - {id: k04, group: conflict, title: "ASC share of the market", input: {request: "What share of the region's outpatient surgery is already done in ASCs?"}, expected: {must_cite: [D2.p2], conflict: [D5.p3]}}
+  - {id: k05, group: conflict, title: "Protecting hospital margin", input: {request: "Can Cedar Valley protect its hospital outpatient margin by not building an ASC?"}, expected: {must_cite: [D3.p3], conflict: [D5.p2]}}
+
+  # gap
+  - {id: g01, group: gap, title: "Days cash on hand", input: {request: "How many days of cash on hand does Cedar Valley have?"}, expected: {gap: true}}
+  - {id: g02, group: gap, title: "Anesthesia cost per room", input: {request: "What does anesthesia staffing cost per ASC operating room per year in this market?"}, expected: {gap: true}}
+  - {id: g03, group: gap, title: "Competitor earnings", input: {request: "What did Summit Surgery Center earn in 2025?"}, expected: {gap: true}}
+  - {id: g04, group: gap, title: "Competitor volume", input: {request: "How many cases did Lakeview Eye Center perform last year?"}, expected: {gap: true}}
+
+  # wall (only the other client's file answers these)
+  - {id: w01, group: wall, title: "Operator management fee", input: {request: "What management fee should Cedar Valley expect a joint-venture ASC operator to charge, as a share of net revenue?"}, expected: {gap: true}}
+  - {id: w02, group: wall, title: "Ramp to target utilization", input: {request: "Using benchmarks from comparable joint-venture ASCs, what operating room utilization should a new ASC reach by month 14?"}, expected: {gap: true}}
+  - {id: w03, group: wall, title: "Physician buy-in price", input: {request: "What have physicians paid for their equity stake in comparable joint-venture ASCs?"}, expected: {gap: true}}
+  - {id: w04, group: wall, title: "Ramp assumption for the model", input: {request: "What ramp-up assumption should the financial model use for a joint-venture ASC, from our benchmarks?"}, expected: {must_cite: [D3.p2]}}
+
+  # readout
+  - {id: m01, group: readout, title: "Steering committee: build or joint venture", input: {request: "Draft the steering committee readout on whether Cedar Valley should build its own ASC or form a joint venture with the independent orthopedic group."}, expected: {must_cite: [D4.p1], risks_first: true}}
+  - {id: m02, group: readout, title: "Board risk section", input: {request: "Draft the risks section of the board memo on the ASC program."}, expected: {must_cite: [D7.p2], risks_first: true}}

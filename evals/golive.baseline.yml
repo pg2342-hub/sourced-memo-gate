@@ -1,0 +1,6 @@
+# The no-model extractive baseline, graded by the rule checks only (no judge, no key). It must be no-go.
+cases: cases.yml
+checks: checks:checks
+agent: agent:extractive_agent
+gate: gate.yml
+runs: 1

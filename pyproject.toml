@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sourced-memo-gate"
+version = "0.1.0"
+description = "Go-live gate for an AI research-synthesis agent on a consulting engagement"
+requires-python = ">=3.10"
+dependencies = [
+  "golive-gate[claude] @ git+https://github.com/pg2342-hub/golive-gate@37a39197b29a38b099c6f74d3eb8e4ea1137129b",
+  "pyyaml>=6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.setuptools]
+packages = ["memo"]
+
+[tool.setuptools.package-data]
+memo = ["corpus.yml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E402"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["memo"]
+known-third-party = ["golive_gate"]

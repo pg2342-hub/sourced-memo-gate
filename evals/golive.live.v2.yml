@@ -1,0 +1,7 @@
+# Live run of prompt v2: calls Claude for the agent and the judge and records every call to recordings/.
+# GOLIVE_LIVE=1 ANTHROPIC_API_KEY=... golive run evals/golive.live.v2.yml
+cases: cases.yml
+checks: judge_checks:checks_v2
+agent: agent:live_v2
+gate: gate.yml
+runs: 3
