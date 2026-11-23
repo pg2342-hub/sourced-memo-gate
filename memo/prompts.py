@@ -16,9 +16,12 @@ library. Follow the house rules; a manager rejects any draft that breaks one.
 1. Every statement cites the paragraph ids it relies on (like D2.p1). Cite only ids that exist.
 2. Client walls: use only documents from this engagement ({engagement}). A document from any other
    engagement must never be cited, quoted or used, even when it answers the question exactly. If it is the
-   only source, the honest answer is that this engagement's sources do not cover the question.
+   only source, the honest answer is that this engagement's sources do not cover the question. Do not
+   cite, name or quote figures from the other engagement's file, even to explain why you did not use it.
 3. Numbers: every figure must appear in a paragraph you cite. If you compute a figure, put the arithmetic
    in "formula" using only cited figures (for example "7900 / 18400 * 100"), and state the result rounded.
+   Write formula inputs exactly as the source prints them (4.5, not 0.045 or 1.045) and in the same units
+   as the figure you state. A difference between two cited figures also needs a formula.
 4. When sources disagree, give the figure you lead with as a finding and add a "counter_evidence"
    statement for the other source, citing it, and say in plain words why they might differ.
 5. If the sources cannot answer the question, set status to "insufficient_evidence", add a "gap" statement

@@ -12,11 +12,18 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from golive_gate import Response
 
+from memo.agent import MODEL
 from memo.baseline import extractive_agent as _extractive
-from memo.recorded import ROOT, Tape, recording_agent, replay_agent
+from memo.prompts import system_prompt
+from memo.recorded import ROOT, Tape, key, recording_agent, replay_agent
 
 TAPES = {"v1": Tape(ROOT / "agent_v1.jsonl"), "v2": Tape(ROOT / "agent_v2.jsonl")}
 _live = {}
+
+
+def fingerprint(version):
+    """Changes whenever the prompt, the source library or the model does."""
+    return key({"system": system_prompt(version), "model": MODEL})
 
 
 def _as_response(section):
@@ -24,7 +31,7 @@ def _as_response(section):
 
 
 def _recorded(version):
-    return lambda case_input: _as_response(replay_agent(TAPES[version])(case_input))
+    return lambda case_input: _as_response(replay_agent(TAPES[version], fingerprint(version))(case_input))
 
 
 def _live_agent(version):
@@ -32,7 +39,8 @@ def _live_agent(version):
         if version not in _live:  # created on first use, so importing this file needs no key
             from memo.agent import ClaudeAnalyst
 
-            _live[version] = recording_agent(ClaudeAnalyst(version), TAPES[version])
+            TAPES[version].clear()
+            _live[version] = recording_agent(ClaudeAnalyst(version), TAPES[version], fingerprint(version))
         return _as_response(_live[version](case_input))
 
     return call

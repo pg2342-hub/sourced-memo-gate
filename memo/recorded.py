@@ -2,8 +2,10 @@
 
 CI and the demo page grade recorded runs, so they are free and repeatable; the
 record workflow (.github/workflows/record.yml) refreshes them with real calls.
-Recordings are keyed by a hash of the input (agent) or the full prompt (judge);
-repeated keys replay in the order they were recorded, one per run.
+Agent recordings are keyed by a hash of the input plus a fingerprint of the system prompt and model,
+so a changed prompt, source library or model finds no recording and fails loudly instead of replaying
+a stale run. Judge recordings are keyed by the full judge prompt. Repeated keys replay in the order
+they were recorded, one per run.
 """
 
 from __future__ import annotations
@@ -29,6 +31,11 @@ class Tape:
         self.path = path
         self._queues: dict[str, list[Any]] | None = None
 
+    def clear(self) -> None:
+        """Start a fresh recording, so a live run never leaves an older run in front of it."""
+        self.path.unlink(missing_ok=True)
+        self._queues = None
+
     def append(self, k: str, value: Any) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.path.open("a") as f:
@@ -48,17 +55,17 @@ class Tape:
         return queue.pop(0)
 
 
-def recording_agent(agent: Callable[[dict], dict], tape: Tape) -> Callable[[dict], dict]:
+def recording_agent(agent: Callable[[dict], dict], tape: Tape, fingerprint: str = "") -> Callable[[dict], dict]:
     def call(case_input: dict) -> dict:
         record = agent(case_input)
-        tape.append(key(case_input), record)
+        tape.append(key({"input": case_input, "fp": fingerprint}), record)
         return record
 
     return call
 
 
-def replay_agent(tape: Tape) -> Callable[[dict], dict]:
-    return lambda case_input: tape.next(key(case_input))
+def replay_agent(tape: Tape, fingerprint: str = "") -> Callable[[dict], dict]:
+    return lambda case_input: tape.next(key({"input": case_input, "fp": fingerprint}))
 
 
 def recording_judge(judge: Callable[[str], Any], tape: Tape) -> Callable[[str], Any]:

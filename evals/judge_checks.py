@@ -32,6 +32,7 @@ def judge_for(version):
             if os.environ.get("GOLIVE_LIVE") == "1":
                 from golive_gate import ClaudeJudge
 
+                TAPES[version].clear()
                 _judges[version] = recording_judge(ClaudeJudge(model="claude-opus-5-5", effort="low"), TAPES[version])
             else:
                 _judges[version] = replay_judge(TAPES[version])

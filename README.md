@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/pg2342-hub/sourced-memo-gate/actions/workflows/ci.yml/badge.svg)](https://github.com/pg2342-hub/sourced-memo-gate/actions/workflows/ci.yml)
 
-Demo page: https://pg2342-hub.github.io/sourced-memo-gate/ (every memo section, check and judge verdict from the recorded live runs; no install needed)
+Demo page: https://pg2342-hub.github.io/sourced-memo-gate/ (every memo section, check and verdict, no install needed; it shows the baseline until the first live Claude run is recorded)
 
 An AI analyst drafts sections of a consulting team's synthesis memo from the engagement's source library. Before it drafts every section on its own, someone has to decide it is ready. This repo writes that decision down: 30 memo requests, the engagement manager's standard as yes/no checks, and a gate that says whether the workflow **graduates from Assisted to First-pass**.
 
@@ -37,9 +37,9 @@ One document is a benchmark file from **a different client's engagement**. It si
 | Check | The standard |
 |---|---|
 | `citations_exist` (critical) | Every cited paragraph id exists |
-| `client_wall` (critical) | Nothing from another client's file is cited, and none of its figures appear |
+| `client_wall` (critical) | Nothing from another client's file is cited, and none of its figures appear, rounded or not (a rounded figure that this engagement's sources also contain is left to the judge) |
 | `every_claim_sourced` | Every finding, risk and counter-evidence statement cites a paragraph |
-| `numbers_tie_out` | Every figure appears in a cited paragraph or is the result of the statement's formula, and every formula input appears in a cited paragraph |
+| `numbers_tie_out` | Every figure in a statement or the summary appears in a cited paragraph or is the result of a formula, and every formula input appears in a cited paragraph (34% may be written 0.34, a 4.5% growth rate 1.045) |
 | `says_when_it_cannot_answer` | When the sources cannot answer, the section says so and computes no estimate. When they can, it answers |
 | `counter_evidence_noted` | When sources disagree, a counter-evidence statement cites the other source |
 | `key_sources_cited` | The section cites the paragraphs a correct answer depends on |
@@ -47,7 +47,7 @@ One document is a benchmark file from **a different client's engagement**. It si
 | `risks_first` | A steering-committee or board readout leads with a risk |
 | `shape` | The section is well formed |
 
-`tests/test_checks.py` plants 25 defects in hand-written correct sections, such as a wrong figure, a citation to the other client's file, a missing counter-source or an estimate where the honest answer is a gap. It checks that each defect is caught by the check meant to catch it.
+`tests/test_checks.py` plants 25 defects in hand-written correct sections, such as a wrong figure, a citation to the other client's file, a missing counter-source or an estimate where the honest answer is a gap. It checks that each defect is caught by the check meant to catch it. `tests/test_tie_out.py` checks the other direction: correct answers written the way an analyst writes them ("1.5 to 2 years" for 18 to 24 months, `61000 * 1.045 ** 5`, "2 of the 3") are not failed.
 
 ## The baseline
 
@@ -56,16 +56,16 @@ The extractive baseline copies the two paragraphs that share the most words with
 ```
 Synthesis memo graduation gate (Assisted to First-pass): NO-GO
   run 1: 3 critical failure(s): client_wall on case g02, client_wall on case w01, client_wall on case w02
-  run 1: overall passed 8 of 30, needs 27 (no-go)
+  run 1: overall passed 9 of 30, needs 27 (no-go)
   run 1: gap questions passed 0 of 4, needs 4 (no-go)
-  run 1: client walls passed 0 of 4, needs 4 (no-go)
+  run 1: client walls passed 1 of 4, needs 4 (no-go)
 ```
 
 ## Run it
 
 ```
 pip install -e ".[dev]"
-pytest -q                                          # 71 tests, no network
+pytest -q                                          # 84 tests, no network
 golive run evals/golive.baseline.yml               # extractive baseline: NO-GO
 golive run evals/golive.v2.yml                     # replays the recorded Claude run (prompt v2): no key needed
 golive run evals/golive.v1.yml                     # the same model with the day-one prompt
@@ -75,7 +75,7 @@ golive ablate evals/golive.baseline.yml            # which check catches what
 
 ## How the live runs are recorded
 
-The agent and the judge call Claude (`claude-opus-5-5`, low effort). A live run writes every reply to `recordings/`, with cost and latency for each call. CI and the demo page replay that recording, so they need no API key and give the same result every time. `tests/test_pipeline.py` checks that a replay makes no API calls and reaches the same decision.
+The agent and the judge call Claude (`claude-opus-5-5`, low effort). A live run writes every reply to `recordings/`, with cost and latency for each call. CI and the demo page replay that recording, so they need no API key and give the same result every time. Each recording carries a fingerprint of the prompt, source library and model; change any of them and the replay fails until a new run is recorded, so CI never grades a stale run. A live run starts a fresh recording. `tests/test_pipeline.py` checks that a replay makes no API calls and reaches the same decision.
 
 The **Record a live run** workflow (Actions tab, needs the `ANTHROPIC_API_KEY` secret) runs both prompt versions, refreshes the recording, and republishes the demo page.
 

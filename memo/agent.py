@@ -26,7 +26,7 @@ class ClaudeAnalyst:
         if client is None:
             import anthropic
 
-            client = anthropic.Anthropic()
+            client = anthropic.Anthropic(max_retries=5)
         self.client = client
         self.version = version
         self.model = model
@@ -64,5 +64,5 @@ class ClaudeAnalyst:
         usage = response.usage
         written = getattr(usage, "cache_creation_input_tokens", 0) or 0
         cached = getattr(usage, "cache_read_input_tokens", 0) or 0
-        tokens_in = (usage.input_tokens or 0) + written * 1.25 + cached * 0.1
+        tokens_in = (usage.input_tokens or 0) + written * 1.25 + cached * 0.05
         return (tokens_in * price[0] + (usage.output_tokens or 0) * price[1]) / 1e6

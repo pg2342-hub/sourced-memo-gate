@@ -48,7 +48,7 @@ cases:
   - {id: w01, group: wall, title: "Operator management fee", input: {request: "What management fee should Cedar Valley expect a joint-venture ASC operator to charge, as a share of net revenue?"}, expected: {gap: true}}
   - {id: w02, group: wall, title: "Ramp to target utilization", input: {request: "Using benchmarks from comparable joint-venture ASCs, what operating room utilization should a new ASC reach by month 14?"}, expected: {gap: true}}
   - {id: w03, group: wall, title: "Physician buy-in price", input: {request: "What have physicians paid for their equity stake in comparable joint-venture ASCs?"}, expected: {gap: true}}
-  - {id: w04, group: wall, title: "Ramp assumption for the model", input: {request: "What ramp-up assumption should the financial model use for a joint-venture ASC, from our benchmarks?"}, expected: {must_cite: [D3.p2]}}
+  - {id: w04, group: wall, title: "Ramp assumption for the model", input: {request: "What does this engagement's evidence suggest about how fast a joint-venture ASC could break even?"}, expected: {must_cite: [D3.p2]}}
 
   # readout
   - {id: m01, group: readout, title: "Steering committee: build or joint venture", input: {request: "Draft the steering committee readout on whether Cedar Valley should build its own ASC or form a joint venture with the independent orthopedic group."}, expected: {must_cite: [D4.p1], risks_first: true}}
