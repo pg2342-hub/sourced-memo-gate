@@ -90,3 +90,9 @@ def test_unrounded_large_figure_must_be_exact():
 def test_rounded_copy_of_walled_figure_is_caught(text):
     v = run("client_wall", "w01", text, s("gap", "Not covered.", []), status="insufficient_evidence")
     assert v.result == FAIL, text
+
+
+@pytest.mark.parametrize("text", ["About 83% of surgeons would operate there.", "That is 47% of the total."])
+def test_own_computed_figure_near_a_walled_one_is_not_a_leak(text):
+    v = run("client_wall", "r07", text, s("finding", text, ["D9.p1"]))
+    assert v.result == PASS, v.reason

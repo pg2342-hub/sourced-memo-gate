@@ -38,6 +38,15 @@ jobs:
             # keep only a complete recording: 90 sections (30 cases x 3 runs), none crashed
             test "$(wc -l < recordings/agent_$v.jsonl)" -eq 90 || { echo "incomplete $v recording, not committing"; exit 1; }
           done
+      - name: Keep the reports and recordings for diagnosis, even when the run fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-run
+          path: |
+            reports/
+            recordings/
+          if-no-files-found: ignore
       - name: Rebuild the demo page from the recordings
         run: GOLIVE_LIVE= bash scripts/build_demo.sh
       - name: Commit the recordings and the demo

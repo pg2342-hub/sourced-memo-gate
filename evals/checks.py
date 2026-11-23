@@ -27,6 +27,23 @@ _OURS = {k: [v for t in ALLOWED.values() for v, _, kk in N.figures(t) if kk == k
 _OURS[""] += [v for t in ALLOWED.values() for v in N.derived(t)]
 # (value, kind) for each figure that appears only in another client's file
 WALLED_ONLY = sorted({(v, k) for t in WALLED.values() for v, _, k in N.figures(t) if not N.matches(v, 9, _OURS[k])})
+
+
+def _rounded_forms(w):
+    """w itself and what w becomes when rounded to a coarser place: 82 -> 80, 49 -> 50, 5.5 -> 5 or 6,
+    3.1 million -> 3 million. A figure the agent computed on its own (83%) is not a rounded copy."""
+    import math
+
+    forms = {w}
+    top = math.floor(math.log10(abs(w))) if w else 0
+    for place in range(top - 1, top + 1):
+        unit = 10.0**place
+        lo, hi = math.floor(w / unit) * unit, math.ceil(w / unit) * unit
+        forms |= {lo, hi} if abs(w - lo) == abs(hi - w) else {lo if w - lo < hi - w else hi}
+    return {f for f in forms if f > 0}
+
+
+WALLED_FORMS = [(f, k) for w, k in WALLED_ONLY for f in _rounded_forms(w)]
 FORMULA_CONSTANTS = {1.0, 100.0} | {float(i) for i in range(2, 13)}
 _POINTS = re.compile(r"(\d+(?:\.\d+)?)\s*-?\s*(?:percentage[- ])?points?\b", re.I)
 
@@ -81,7 +98,7 @@ def client_wall(case, out):
             v
             for t in texts
             for v, d, k in N.figures(t)
-            if any(k == wk and abs(v - w) <= 0.1 * w for w, wk in WALLED_ONLY)  # the figure, or a rounded copy
+            if any(k == wk and abs(v - f) < 1e-9 * max(1.0, f) for f, wk in WALLED_FORMS)  # the figure or a rounding
             and not N.matches(v, d, _OURS[k] + computed)  # unless this engagement's sources have it too
         }
     )
