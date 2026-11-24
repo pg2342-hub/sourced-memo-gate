@@ -48,7 +48,7 @@ jobs:
             recordings/
           if-no-files-found: ignore
       - name: Rebuild the demo page from the recordings
-        run: GOLIVE_LIVE= bash scripts/build_demo.sh
+        run: GOLIVE_LIVE= python scripts/build_demo.py
       - name: Commit the recordings and the demo
         run: |
           git config user.name "github-actions[bot]"
@@ -58,6 +58,7 @@ jobs:
           git pull --rebase origin main
           git push origin HEAD:main
           # publish docs/ as the gh-pages branch, which GitHub Pages serves
-          git subtree split --prefix docs -b gh-pages-new
-          git push -f origin gh-pages-new:gh-pages
+          git fetch origin gh-pages
+          c=$(git commit-tree "$(git rev-parse HEAD:docs)" -p origin/gh-pages -m "Publish the demo page")
+          git push origin "$c:refs/heads/gh-pages"
           # pushes made with GITHUB_TOKEN do not start CI; the next push by a person does

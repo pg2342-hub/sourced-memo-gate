@@ -32,6 +32,11 @@ target-version = "py310"
 select = ["E", "F", "I", "UP", "B", "SIM"]
 ignore = ["E402"]
 
+[tool.ruff.lint.per-file-ignores]
+# the page template and the shared house-style helper carry long lines of HTML
+"scripts/build_demo.py" = ["E501"]
+"scripts/demo_chrome.py" = ["E501"]
+
 [tool.ruff.lint.isort]
 known-first-party = ["memo"]
 known-third-party = ["golive_gate"]
