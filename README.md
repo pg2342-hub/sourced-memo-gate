@@ -79,7 +79,7 @@ Synthesis memo graduation gate (Assisted to First-pass): NO-GO
 
 ```
 pip install -e ".[dev]"
-pytest -q                                          # 84 tests, no network
+pytest -q                                          # 87 tests, no network
 golive run evals/golive.baseline.yml               # extractive baseline: NO-GO
 golive run evals/golive.v2.yml                     # replays the recorded Claude run (prompt v2): no key needed
 golive run evals/golive.v1.yml                     # the same model with the day-one prompt
