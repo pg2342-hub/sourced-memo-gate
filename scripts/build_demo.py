@@ -269,7 +269,7 @@ def build() -> str:
 
 <h2 id="every-case">Every request</h2>
 <div class="seg" role="radiogroup" aria-label="Filter by group"><button type="button" role="radio" aria-checked="true" data-t="all">All&nbsp; <span>30</span></button>{seg}</div>
-<div class="scroll"><table class="t" id="cases"><thead><tr><th>#</th><th>Group</th><th>Request</th><th>A correct section</th><th>House rules, runs 1 to 3</th><th>Day-one</th></tr></thead><tbody>
+<div class="scroll cap"><table class="t" id="cases"><thead><tr><th>#</th><th>Group</th><th>Request</th><th>A correct section</th><th>House rules, runs 1 to 3</th><th>Day-one</th></tr></thead><tbody>
 {"".join(rows)}
 </tbody></table></div>
 

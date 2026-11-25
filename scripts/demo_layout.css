@@ -111,3 +111,6 @@ details summary{cursor:pointer;color:var(--ink-2)}
 .lib li.other{background:var(--ink);color:var(--paper)}
 .lib li.other b{display:block;font-weight:500;font-size:13px;margin-top:2px}
 @media (max-width:640px){.strip{gap:2px}.cell{border-radius:2px}}
+/* The 30-request table scrolls inside a capped box so the page stays short; the header stays put. */
+.scroll.cap{max-height:min(720px,80vh);overflow:auto;overscroll-behavior:contain}
+.scroll.cap thead th{position:sticky;top:0;z-index:1;background:#fbfaf6}
